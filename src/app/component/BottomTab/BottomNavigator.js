@@ -11,16 +11,24 @@ const BottomNavigator = () => {
     const Tab = createBottomTabNavigator();
 
     return (
-        <Tab.Navigator>
-            <Tab.Screen name="Home" 
-                    component={Homescreen} 
+        <Tab.Navigator screenOptions={({ route }) => ({
+            headerShown: false,
+            tabBarStyle: {
+              paddingHorizontal: 5,
+              paddingTop: 0,
+              backgroundColor: 'rgba(34,36,40,1)',
+              position: 'absolute',
+              borderTopWidth: 0,
+          },
+        })}> 
+             <Tab.Screen name="Homescreen" component={Homescreen} 
                     options={{
                         headerShown : false,
                         tabBarIcon: ({ color, size }) => (
-                            <Icon name="home" size={18} color={color}/>
+                            <Icon name="graph" size={18} color={color}/>
                         ),
                         inactiveTintColor: COLOR.black,
-                        activeTintColor: COLOR.blue,
+                        activeTintColor: COLOR.white,
                     }}/>
             <Tab.Screen name="History" component={Homescreen} 
                     options={{
@@ -29,7 +37,7 @@ const BottomNavigator = () => {
                             <Icon name="graph" size={18} color={color}/>
                         ),
                         inactiveTintColor: COLOR.black,
-                        activeTintColor: COLOR.blue,
+                        activeTintColor: COLOR.white,
                     }}/>
                     
         </Tab.Navigator>

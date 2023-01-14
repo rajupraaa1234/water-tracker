@@ -25,8 +25,9 @@ const NavigationDrawer = () => {
                 options={{
                     title: 'Hey , Raju kumar', //Set Header Title
                     headerStyle: {
-                      backgroundColor: COLOR.progressBlue, //Set Header color
+                      backgroundColor: 'rgba(34,36,40,1)', //Set Header color
                     },
+                    headerTintColor : COLOR.white,
                     headerShown : true,
                   }}
             />

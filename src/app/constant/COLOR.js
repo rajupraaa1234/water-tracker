@@ -115,6 +115,7 @@ export const COLOR = {
   boderColor: '#E6E6E6',
   messagesSearchBg: '#268CBF',
   lightBlue: '#2A97CD',
+  backGraound : '#0D110F',
   messagesColor: '#838383',
   messageItemBg: '#F8F8F8',
   textCountColor: '#A8A8A8',
