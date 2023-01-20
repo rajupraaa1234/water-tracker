@@ -4,14 +4,16 @@ import styles from './style';
 import {languageString} from '@lacalization'
 import {getAsValue} from '@util';
 import {AppConstant} from '@constant';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 
 
 
 const Homescreen = () =>{
 
-    const {today,random} = languageString;
+    const {today,target} = languageString;
     const [temp,setTemp ] = useState("");
+    const [targetVol , setTarget] = useState(200);
     const FetchLanguage = async () => {
          setTemp(languageString.today);
     }
@@ -24,7 +26,12 @@ const Homescreen = () =>{
      return (
         <View style={styles.container}>
             <Text style={styles.dayTextStyle}>{today}</Text>
-            <Text style={styles.dayTextStyle}>{random}</Text>
+            <View style={styles.infoStyle}>
+                  <Icon name="infocirlceo" size={18} color={'blue'}/>
+                  <Text style={{color : 'blue' , left : 18,fontSize:20 , justifyContent : 'center'}}>{target} {targetVol}ml</Text>
+            </View>
+
+
         </View>
      )
 }

@@ -8,6 +8,7 @@ const strings = new LocalizedStrings({
        history : 'Hostory',
        graph : 'Graph',
        homescreen : 'HomeScreen',
+       target : 'Today Target',
     },
     hi : {
         today : "आज",

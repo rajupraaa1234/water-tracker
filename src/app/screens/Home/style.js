@@ -13,6 +13,13 @@ export default StyleSheet.create({
         alignSelf : 'center',
         marginTop : '10%',
         fontSize : 20,
+    },
+    infoStyle : {
+        alignSelf : 'center',
+        marginTop : 12,
+        flexDirection : 'row',
+        justifyContent : 'center',
+        alignItems : 'center'
     }
     
 
