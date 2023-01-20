@@ -12,6 +12,7 @@ import LanguageSelectionScreen from './src/app/screens/startUpScreen/LanguageSel
 import { AuthContext } from './src/app/component/Context/context';
 import {getAsValue} from '@util';
 import {AppConstant} from '@constant';
+import {languageString} from '@lacalization'
 
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -41,8 +42,10 @@ export default function App() {
     const checkForFirstTimeUser = async ()  => {
       try {
         const temp = await getAsValue(AppConstant.username);
+        const langCode = await getAsValue(AppConstant.langcode);
         if (temp != 'undefined') {
           setUserToken(temp);
+          languageString.setLanguage(langCode);
         } else {
           setUserToken(null);
         }

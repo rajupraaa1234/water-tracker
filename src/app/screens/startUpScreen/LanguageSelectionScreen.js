@@ -7,6 +7,7 @@ import {setAsValue} from '@util';
 import Toast from 'react-native-toast-message';
 import { AuthContext } from '../../component/Context/context';
 import {AppConstant} from '@constant';
+import languageString from '../../localization/languageString';
 
 const LanguageSelectionScreen = ({navigation}) => {
 
@@ -14,7 +15,7 @@ const LanguageSelectionScreen = ({navigation}) => {
         [
             {code : "eng" , lang : 'English' , desc : 'All the context will be in english language '},
             {code : "hi" , lang : 'हिंदी' , desc : 'सभी संदर्भ हिंदी भाषा में होंगे'},
-            {code : "pan" , lang : 'ਪੰਜਾਬੀ' , desc : 'ਸਾਰਾ ਪ੍ਰਸੰਗ ਹਿੰਦੀ ਭਾਸ਼ਾ ਵਿੱਚ ਹੋਵੇਗਾ'},
+            {code : "pun" , lang : 'ਪੰਜਾਬੀ' , desc : 'ਸਾਰਾ ਪ੍ਰਸੰਗ ਹਿੰਦੀ ਭਾਸ਼ਾ ਵਿੱਚ ਹੋਵੇਗਾ'},
             {code : "ur" , lang : 'اردو' , desc : 'تمام سیاق و سباق ہندی زبان میں ہوں گے۔'},
             {code : "ka" , lang : 'ಕೆನಡಾ' , desc : 'ಎಲ್ಲಾ ಸಂದರ್ಭವೂ ಹಿಂದಿ ಭಾಷೆಯಲ್ಲಿ ಇರುತ್ತದೆ'},
         ];
@@ -58,6 +59,7 @@ const LanguageSelectionScreen = ({navigation}) => {
         else{ 
             await setAsValue(AppConstant.username, name);
             await setAsValue(AppConstant.langcode, langCode);
+            languageString.setLanguage(langCode);
             navigation.replace('NavigationDrawer');
         }
     }
