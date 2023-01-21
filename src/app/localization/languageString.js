@@ -9,6 +9,10 @@ const strings = new LocalizedStrings({
        graph : 'Graph',
        homescreen : 'HomeScreen',
        target : 'Today Target',
+       addition : 'Add a portion of water',
+       bottle : 'Bottle',
+       cup : 'Cup',
+       somethingElse : 'Something Else'
     },
     hi : {
         today : "आज",
