@@ -1,17 +1,15 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { Component , useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {BottomNavigator} from '@component';
-// import BottomNavigator from '../BottomTab/BottomNavigator';
-
 import {COLOR} from '@constant';
 
 
 // create a component
 const NavigationDrawer = () => {
     const Drawer = createDrawerNavigator();
-
+  
     return (
         <Drawer.Navigator>
             <Drawer.Screen

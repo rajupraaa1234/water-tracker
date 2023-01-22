@@ -7,23 +7,42 @@ import {AppConstant} from '@constant';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon1 from 'react-native-vector-icons/AntDesign';
 import {drop1} from '@image';
-
+import {useSelector , useDispatch} from 'react-redux';
+import {setUsername,setUserLang} from '@action';
 
 const Homescreen = () =>{
 
     const {today,target} = languageString;
     const [temp,setTemp ] = useState("");
     const [targetVol , setTarget] = useState(200);
+    const userStore = useSelector(state => state.userReducer);
+    const dispatch = useDispatch();
     const FetchLanguage = async () => {
          setTemp(languageString.today);
     }
 
+
+
+    const checkForFirstTimeUser = async ()  => {
+        try {
+          const username = await getAsValue(AppConstant.username);
+          const langCode = await getAsValue(AppConstant.langcode);
+          if (username != 'undefined') {
+            dispatch(setUsername(username));
+            dispatch(setUserLang(langCode));
+          } 
+        } catch (e) {
+          console.log(e);
+        }
+    }
+
     useEffect(()=>{
+        checkForFirstTimeUser();
         FetchLanguage();    
     },[])
 
     const onBottleClick = () => {
-
+        console.log(`user--from home --r---bottle-----> ${JSON.stringify(userStore)}`);
     }
 
     const onCupClick = () =>{

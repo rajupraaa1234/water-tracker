@@ -3,6 +3,7 @@ import React, { Component , useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Homescreen from '../../screens/Home/homescreen';
+import GraphScreen from '../../screens/graph/graphScreen';
 import {COLOR} from '@constant';
 import Icon from 'react-native-vector-icons/Octicons';
 import {languageString} from '@lacalization'
@@ -36,7 +37,7 @@ const BottomNavigator = () => {
                         inactiveTintColor: COLOR.black,
                         activeTintColor: COLOR.white,
                     }}/>
-            <Tab.Screen name = {languageString.history} component={Homescreen} 
+            <Tab.Screen name = {languageString.history} component={GraphScreen} 
                     options={{
                         headerShown : false,
                         tabBarIcon: ({ color, size }) => (

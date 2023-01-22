@@ -13,6 +13,8 @@ import { AuthContext } from './src/app/component/Context/context';
 import {getAsValue} from '@util';
 import {AppConstant} from '@constant';
 import {languageString} from '@lacalization'
+import store from './src/app/Redux/Store/store';
+import {Provider} from 'react-redux';
 
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -22,7 +24,7 @@ export default function App() {
     const Stack1 = createNativeStackNavigator();
     const [isLoading , setIsLoading] = useState(true);
     const [userToken , setUserToken] = useState(null);
-
+    
     const authContext = React.useMemo(() =>({
              signIn : () => {
                 setIsLoading(false);
@@ -59,7 +61,8 @@ export default function App() {
     },[]);
 
   return (
-    <AuthContext.Provider value={authContext}>
+ <Provider store={store}>
+  <AuthContext.Provider value={authContext}>
       <NavigationContainer>
         {userToken !== null ? (
           <AppNavigator/>
@@ -75,7 +78,8 @@ export default function App() {
             )
         }
          </NavigationContainer>
-    </AuthContext.Provider>
+         </AuthContext.Provider>
+  </Provider>   
 );
 
 
