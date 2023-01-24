@@ -1,5 +1,5 @@
 import React , {useEffect , useState} from "react";
-import {View,Text , ImageBackground , TouchableOpacity } from 'react-native';
+import {View,Text , ImageBackground , TouchableOpacity  } from 'react-native';
 import styles from './style';
 import {languageString} from '@lacalization'
 import {getAsValue} from '@util';
@@ -9,6 +9,9 @@ import Icon1 from 'react-native-vector-icons/AntDesign';
 import {drop1} from '@image';
 import {useSelector , useDispatch} from 'react-redux';
 import {setUsername,setUserLang} from '@action';
+import {COLOR} from '@constant';
+import {ScrollView} from 'react-native-gesture-handler';
+
 
 const Homescreen = () =>{
 
@@ -54,6 +57,7 @@ const Homescreen = () =>{
     }
 
      return (
+        <ScrollView contentContainerStyle={{flexGrow : 1 , flexDirection:'column'}}> 
         <View style={styles.container}>
             <Text style={styles.dayTextStyle}>{today}</Text>
             <View style={styles.infoStyle}>
@@ -68,9 +72,9 @@ const Homescreen = () =>{
                     <Text style ={{color:'blue',fontSize:20,fontWeight:'700',alignItems:'center'}}>2100 ml</Text>
                     <Text style ={{color:'blue',fontSize:20,fontWeight:'700',alignItems:'center'}}>105 %</Text>
                 </ImageBackground>
-                <Text style={{color : 'white',marginTop:50,fontSize:20,fontWeight:'700'}}>+ {languageString.addition}</Text>
-
-                <View style={{flex : 1 , flexDirection : 'row',marginTop : 30}}>
+            </View>
+            <Text style={{color : 'white',marginTop:50,fontSize:20,fontWeight:'700', alignSelf:'center'}}>+ {languageString.addition}</Text>
+                <View style={{ flexDirection : 'row',marginTop : 30 , alignSelf:'center'}}>
                         <TouchableOpacity style={styles.bottleBtn} onPress = {onBottleClick}>
                                <Icon name="bottle-soda-classic" size={25} color={'white'}/>
                                <Text style={{color : 'white'}}>{languageString.bottle}</Text>
@@ -81,14 +85,13 @@ const Homescreen = () =>{
                                <Text style={{color : 'white'}}>{languageString.cup}</Text>
                         </TouchableOpacity>
                 </View>
-
-                <TouchableOpacity style={[styles.bottleBtn , {marginLeft : 20,marginTop:70,width:150}]} onPress = {onCupClick}>
+                <TouchableOpacity style={[styles.bottleBtn , {alignSelf:'center',marginLeft : 20,marginTop:70,width:150}]} onPress = {onCupClick}>
                                <Icon name="glass-wine" size={25} color={'white'}/>
                                <Text style={{color : 'white'}}>{languageString.somethingElse}</Text>
                 </TouchableOpacity>
-               
-            </View>
+                
         </View>
+        </ScrollView>    
      )
 }
 export default Homescreen;

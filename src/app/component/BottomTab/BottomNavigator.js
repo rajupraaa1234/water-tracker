@@ -36,6 +36,11 @@ const BottomNavigator = () => {
                         ),
                         inactiveTintColor: COLOR.black,
                         activeTintColor: COLOR.white,
+                        tabBarStyle : {
+                            height : 50,
+                            backgroundColor : 'rgba(34,36,40,1)'
+                        }
+                        
                     }}/>
             <Tab.Screen name = {languageString.history} component={GraphScreen} 
                     options={{
@@ -45,6 +50,10 @@ const BottomNavigator = () => {
                         ),
                         inactiveTintColor: COLOR.black,
                         activeTintColor: COLOR.white,
+                        tabBarStyle : {
+                            height : 50,
+                            backgroundColor : 'rgba(34,36,40,1)'
+                        }
                     }}/>
                     
         </Tab.Navigator>

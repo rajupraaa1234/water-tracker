@@ -5,13 +5,20 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {BottomNavigator} from '@component';
 import {COLOR} from '@constant';
 
+import DrawerContent from './DrawerContent';
+
 
 // create a component
-const NavigationDrawer = () => {
+const NavigationDrawer = ({navigation}) => {
     const Drawer = createDrawerNavigator();
+
+    const onClick = () =>{
+        console.log(`item click ---------------->`);
+    }
   
     return (
-        <Drawer.Navigator>
+
+        <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props}  />}>
             <Drawer.Screen
                 name="Homescreen"
                 component={BottomNavigator}
@@ -21,13 +28,28 @@ const NavigationDrawer = () => {
                 }}
                 //drawerContent={<HomeHeader/>} 
                 options={{
-                    title: 'Hey , Raju kumar', //Set Header Title
+                    title: 'Home', //Set Header Title
                     headerStyle: {
                       backgroundColor: 'rgba(34,36,40,1)', //Set Header color
                     },
                     headerTintColor : COLOR.white,
                     headerShown : true,
+                    drawerStyle: {
+                        backgroundColor: 'white',
+                        width: '60%',
+                    },
+                    drawerType : 'back',
+                    overlayColor: 'transparent',
+                    itemStyle : {
+                        backgroundColor : 'slide'
+                    },
+                    
+                      tabBarVisable: false,
+                      tabBarLabelStyle : {
+                        paddingBottom : 0
+                      }
                   }}
+                 
             />
        </Drawer.Navigator>
     );
