@@ -8,9 +8,10 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon1 from 'react-native-vector-icons/AntDesign';
 import {drop1} from '@image';
 import {useSelector , useDispatch} from 'react-redux';
-import {setUsername,setUserLang} from '@action';
+import {setUsername,setUserLang,setAddWaterModalVis} from '@action';
 import {COLOR} from '@constant';
 import {ScrollView} from 'react-native-gesture-handler';
+import AddWaterPopup from '../../component/modal/AddWaterPopup';
 
 
 const Homescreen = () =>{
@@ -19,13 +20,16 @@ const Homescreen = () =>{
     const [temp,setTemp ] = useState("");
     const [targetVol , setTarget] = useState(200);
     const userStore = useSelector(state => state.userReducer);
+    
     const dispatch = useDispatch();
     const FetchLanguage = async () => {
          setTemp(languageString.today);
     }
 
-
-
+    const disableModal = (vis) =>{
+        dispatch(setAddWaterModalVis(vis));
+    }
+    
     const checkForFirstTimeUser = async ()  => {
         try {
           const username = await getAsValue(AppConstant.username);
@@ -46,6 +50,7 @@ const Homescreen = () =>{
 
     const onBottleClick = () => {
         console.log(`user--from home --r---bottle-----> ${JSON.stringify(userStore)}`);
+        disableModal(true);
     }
 
     const onCupClick = () =>{
@@ -89,6 +94,8 @@ const Homescreen = () =>{
                                <Icon name="glass-wine" size={25} color={'white'}/>
                                <Text style={{color : 'white'}}>{languageString.somethingElse}</Text>
                 </TouchableOpacity>
+                <AddWaterPopup/>
+
                 
         </View>
         </ScrollView>    

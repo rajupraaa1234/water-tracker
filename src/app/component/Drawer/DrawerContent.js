@@ -6,6 +6,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {userImg,menuBg} from '@image';
 import {useSelector , useDispatch} from 'react-redux';
+import {setAddWaterModalVis} from '@action';
+
 import {
     DrawerContentScrollView,
     DrawerItem,
@@ -15,6 +17,25 @@ import {
 
 // create a component
 const DrawerContent = (props , {navigation}) => {
+
+
+  const dispatch = useDispatch();
+
+
+  const disableModal = (vis) =>{
+      dispatch(setAddWaterModalVis(vis));
+      props.navigation.closeDrawer();
+  }
+
+  const onClick = (id) =>{
+    switch(id){
+      case 2 : {
+        disableModal(true);
+        break;
+      }    
+    }
+    props.navigation.closeDrawer(); 
+  }
 
     const userStore = useSelector(state => state.userReducer);
     return (
@@ -55,22 +76,22 @@ const DrawerContent = (props , {navigation}) => {
                 <DrawerItem 
                      label={"Uilization Graph"}
                      labelStyle={{color : COLOR.darkButtonBlueColor}}
-                     onPress={()=> {props.navigation.closeDrawer()}}
+                     onPress={()=> {onClick(1)}}
                 />
                 <DrawerItem 
                      label={"Add your target water"}
                      labelStyle={{color : COLOR.darkButtonBlueColor}}
-                     onPress={()=>{console.log(`click `)}}
+                     onPress={()=>{onClick(2)}}
                 />
                 <DrawerItem 
                      label={"Change your Language"}
                      labelStyle={{color : COLOR.darkButtonBlueColor}}
-                     onPress={()=>{console.log(`click `)}}
+                     onPress={()=>{onClick(3)}}
                 />
                 <DrawerItem 
                      label={"Profile"}
                      labelStyle={{color : COLOR.darkButtonBlueColor}}
-                     onPress={()=>{console.log(`click `)}}
+                     onPress={()=>{onClick(4)}}
                 />
 
             </View>

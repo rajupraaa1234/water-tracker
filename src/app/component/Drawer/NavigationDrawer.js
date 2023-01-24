@@ -4,17 +4,14 @@ import { View, Text, StyleSheet } from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {BottomNavigator} from '@component';
 import {COLOR} from '@constant';
-
 import DrawerContent from './DrawerContent';
+
 
 
 // create a component
 const NavigationDrawer = ({navigation}) => {
     const Drawer = createDrawerNavigator();
-
-    const onClick = () =>{
-        console.log(`item click ---------------->`);
-    }
+   
   
     return (
 
