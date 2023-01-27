@@ -2,13 +2,13 @@ import React , {useEffect , useState} from "react";
 import {View,Text , ImageBackground , TouchableOpacity  } from 'react-native';
 import styles from './style';
 import {languageString} from '@lacalization'
-import {getAsValue} from '@util';
+import {getAsValue,showToastMessage,setAsValue} from '@util';
 import {AppConstant} from '@constant';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon1 from 'react-native-vector-icons/AntDesign';
 import {drop1} from '@image';
 import {useSelector , useDispatch} from 'react-redux';
-import {setUsername,setUserLang,setAddWaterModalVis} from '@action';
+import {setUsername,setUserLang,setAddWaterModalVis,setTargetVolume , setBottleVolume , setConsumedWaster,setGlassVolume} from '@action';
 import {COLOR} from '@constant';
 import {ScrollView} from 'react-native-gesture-handler';
 import AddWaterPopup from '../../component/modal/AddWaterPopup';
@@ -20,6 +20,7 @@ const Homescreen = () =>{
     const [temp,setTemp ] = useState("");
     const [targetVol , setTarget] = useState(200);
     const userStore = useSelector(state => state.userReducer);
+    const waterStore = useSelector(state => state.waterReducer);
     
     const dispatch = useDispatch();
     const FetchLanguage = async () => {
@@ -34,10 +35,35 @@ const Homescreen = () =>{
         try {
           const username = await getAsValue(AppConstant.username);
           const langCode = await getAsValue(AppConstant.langcode);
+          const targetWater = await getAsValue(AppConstant.target);
+          const bottleWater = await getAsValue(AppConstant.bottleWater);
+          const glassWater = await getAsValue(AppConstant.glassWater);
+          const ConsumeWater = await getAsValue(AppConstant.something);
+
           if (username != 'undefined') {
             dispatch(setUsername(username));
             dispatch(setUserLang(langCode));
           } 
+          if(targetWater != 'undefined'){
+             dispatch(setTargetVolume(targetWater));
+          }
+
+          if(bottleWater != 'undefined'){
+             dispatch(setBottleVolume(bottleWater));
+          }
+          if(glassWater != 'undefined'){
+             dispatch(setGlassVolume(glassWater));
+          }
+
+          if(ConsumeWater != 'undefined'){
+            dispatch(setConsumedWaster(ConsumeWater));
+          }else{
+            dispatch(setConsumedWaster(0));
+            await setAsValue(AppConstant.something,0);
+          }
+
+          console.log(`waterStore ---------> ${JSON.stringify(waterStore.targetVolume)}`);
+
         } catch (e) {
           console.log(e);
         }
@@ -49,12 +75,11 @@ const Homescreen = () =>{
     },[])
 
     const onBottleClick = () => {
-        console.log(`user--from home --r---bottle-----> ${JSON.stringify(userStore)}`);
         disableModal(true);
     }
 
     const onCupClick = () =>{
-
+    
     }
 
     const onClickSomethingelse = () => {
@@ -67,7 +92,7 @@ const Homescreen = () =>{
             <Text style={styles.dayTextStyle}>{today}</Text>
             <View style={styles.infoStyle}>
                   <Icon1 name="infocirlceo" size={18} color={'blue'}/>
-                  <Text style={{color : 'blue' , left : 18,fontSize:20 , justifyContent : 'center'}}>{target} {targetVol}ml</Text>
+                  <Text style={{color : 'blue' , left : 18,fontSize:20 , justifyContent : 'center'}}>{target} {waterStore.targetVolume ? waterStore.targetVolume : 0} ml</Text>
             </View>
             <View style={styles.dropStyle}>
                 <ImageBackground 
@@ -90,7 +115,7 @@ const Homescreen = () =>{
                                <Text style={{color : 'white'}}>{languageString.cup}</Text>
                         </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={[styles.bottleBtn , {alignSelf:'center',marginLeft : 20,marginTop:70,width:150}]} onPress = {onCupClick}>
+                <TouchableOpacity style={[styles.bottleBtn , {alignSelf:'center',marginLeft : 20,marginTop:50,width:150}]} onPress = {onCupClick}>
                                <Icon name="glass-wine" size={25} color={'white'}/>
                                <Text style={{color : 'white'}}>{languageString.somethingElse}</Text>
                 </TouchableOpacity>
