@@ -1,17 +1,29 @@
 //import liraries
-import React, { Component , useEffect } from 'react';
+import React, { Component , useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {BottomNavigator} from '@component';
 import {COLOR} from '@constant';
+import {useSelector } from 'react-redux';
 import DrawerContent from './DrawerContent';
-
+import {getAsValue} from '@util';
+import {AppConstant} from '@constant';
 
 
 // create a component
 const NavigationDrawer = ({navigation}) => {
     const Drawer = createDrawerNavigator();
-   
+    const [name,setName] = useState("");
+
+    const getUserDetails = async () =>{
+        const username = await getAsValue(AppConstant.username);
+        setName(username);
+    }
+
+    useEffect(()=>{
+       getUserDetails();
+    },[]);
+    const userStore = useSelector(state => state.userReducer);
   
     return (
 
@@ -25,7 +37,7 @@ const NavigationDrawer = ({navigation}) => {
                 }}
                 //drawerContent={<HomeHeader/>} 
                 options={{
-                    title: 'Home', //Set Header Title
+                    title: `Hey, ${name}` , //Set Header Title
                     headerStyle: {
                       backgroundColor: 'rgba(34,36,40,1)', //Set Header color
                     },

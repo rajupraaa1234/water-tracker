@@ -129,7 +129,9 @@ const Homescreen = () =>{
     const getPercentage =  () => {
          const target = parseInt(waterStore.targetVolume);
          const consume = parseInt(waterStore.consumedWater);
-         return (consume * 100)/target;
+         if(target > 0 && consume>0)
+            return parseInt((consume * 100)/target);
+         return 0;   
     }
 
      return (
