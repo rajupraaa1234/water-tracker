@@ -39,31 +39,37 @@ const Homescreen = () =>{
           const bottleWater = await getAsValue(AppConstant.bottleWater);
           const glassWater = await getAsValue(AppConstant.glassWater);
           const ConsumeWater = await getAsValue(AppConstant.something);
-
           if (username != 'undefined') {
             dispatch(setUsername(username));
             dispatch(setUserLang(langCode));
           } 
-          if(targetWater != 'undefined'){
+          if(targetWater && targetWater != 'undefined'){
              dispatch(setTargetVolume(targetWater));
+          }else{
+            await setAsValue(`${AppConstant.target}`,"0");
+            dispatch(setTargetVolume(0));
           }
 
-          if(bottleWater != 'undefined'){
+          if(bottleWater && bottleWater != 'undefined'){
              dispatch(setBottleVolume(bottleWater));
-          }
-          if(glassWater != 'undefined'){
-             dispatch(setGlassVolume(glassWater));
+          }else{
+            await setAsValue(`${AppConstant.bottleWater}`,"0");
+            dispatch(setBottleVolume(0));
           }
 
-          if(ConsumeWater != 'undefined'){
+          if(glassWater && glassWater != 'undefined'){
+             dispatch(setGlassVolume(glassWater));
+          }else{
+            await setAsValue(`${AppConstant.glassWater}`,"0");
+            dispatch(setGlassVolume(0));
+          }
+
+          if(ConsumeWater && ConsumeWater != 'undefined'){
             dispatch(setConsumedWaster(ConsumeWater));
           }else{
             dispatch(setConsumedWaster(0));
-            await setAsValue(AppConstant.something,0);
+            await setAsValue(`${AppConstant.something}`,"0");
           }
-
-          console.log(`waterStore ---------> ${JSON.stringify(waterStore.targetVolume)}`);
-
         } catch (e) {
           console.log(e);
         }
@@ -74,16 +80,56 @@ const Homescreen = () =>{
         FetchLanguage();    
     },[])
 
-    const onBottleClick = () => {
-        disableModal(true);
+    const onBottleClick = async () => {
+        const currConsumeWater = waterStore.consumedWater;
+        const targetWater = waterStore.targetVolume;
+        const val = waterStore.bottleVolume;
+        if(!val || parseInt(val) === 0 ){
+          showToastMessage("please add the first bottle water than use it");
+          return;
+        }
+        if(targetWater && targetWater != 0){
+              const newConsume = parseInt(`${currConsumeWater}`) + parseInt(`${val}`);
+              if(parseInt(`${targetWater}`) >= parseInt(`${newConsume}`)){
+                  await setAsValue(`${AppConstant.something}`,`${newConsume}`);
+                  dispatch(setConsumedWaster(newConsume));
+              }else{
+                showToastMessage("you can't take this much water now . This is exceeding from target water ");
+              }
+        }else{
+            showToastMessage("Please add the target water than consume");
+        }
     }
 
-    const onCupClick = () =>{
-    
+    const onCupClick = async () =>{
+        const currConsumeWater = waterStore.consumedWater;
+        const targetWater = waterStore.targetVolume;
+        const val = waterStore.glassVolume;
+        if(!val || parseInt(val) === 0 ){
+          showToastMessage("please add the first cup water than use it");
+          return;
+        }
+        if(targetWater && targetWater != 0){
+              const newConsume = parseInt(`${currConsumeWater}`) + parseInt(`${val}`);
+              if(parseInt(`${targetWater}`) >= parseInt(`${newConsume}`)){
+                  await setAsValue(`${AppConstant.something}`,`${newConsume}`);
+                  dispatch(setConsumedWaster(newConsume));
+              }else{
+                showToastMessage("you can't take this much water now . This is exceeding from target water ");
+              }
+        }else{
+            showToastMessage("Please add the target water than consume");
+        }
     }
 
     const onClickSomethingelse = () => {
+       disableModal(true);
+    }
 
+    const getPercentage =  () => {
+         const target = parseInt(waterStore.targetVolume);
+         const consume = parseInt(waterStore.consumedWater);
+         return (consume * 100)/target;
     }
 
      return (
@@ -99,8 +145,8 @@ const Homescreen = () =>{
                     resizeMode='cover' 
                     style={styles.dropImageStyle}
                     source={drop1}>
-                    <Text style ={{color:'blue',fontSize:20,fontWeight:'700',alignItems:'center'}}>2100 ml</Text>
-                    <Text style ={{color:'blue',fontSize:20,fontWeight:'700',alignItems:'center'}}>105 %</Text>
+                    <Text style ={{color:'blue',fontSize:20,fontWeight:'700',alignItems:'center'}}>{waterStore.consumedWater} ml</Text>
+                    <Text style ={{color:'blue',fontSize:20,fontWeight:'700',alignItems:'center'}}>{getPercentage()} %</Text>
                 </ImageBackground>
             </View>
             <Text style={{color : 'white',marginTop:50,fontSize:20,fontWeight:'700', alignSelf:'center'}}>+ {languageString.addition}</Text>
@@ -115,7 +161,7 @@ const Homescreen = () =>{
                                <Text style={{color : 'white'}}>{languageString.cup}</Text>
                         </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={[styles.bottleBtn , {alignSelf:'center',marginLeft : 20,marginTop:50,width:150}]} onPress = {onCupClick}>
+                <TouchableOpacity style={[styles.bottleBtn , {alignSelf:'center',marginLeft : 20,marginTop:50,width:150}]} onPress = {onClickSomethingelse}>
                                <Icon name="glass-wine" size={25} color={'white'}/>
                                <Text style={{color : 'white'}}>{languageString.somethingElse}</Text>
                 </TouchableOpacity>

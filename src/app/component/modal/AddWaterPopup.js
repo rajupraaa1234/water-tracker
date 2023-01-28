@@ -69,17 +69,17 @@ const AddWaterPopup = () => {
   useEffect(()=>{
       console.log(`raju kumarer`);
       checkforDisableList();
-  },[addWaterPopupRed.isAddWaterModalVisible]);
+  },[addWaterPopupRed.isAddWaterModalVisible,waterStore]);
 
 
   const dispatch = useDispatch();
 
   const checkforDisableList = () =>{
-        if(waterStore.targetVolume && waterStore.targetVolume != 0){
+        if(waterStore.targetVolume && parseInt(waterStore.targetVolume) > 0){
             setTargetDiable(true);
-        }if(waterStore.bottleVolume && waterStore.bottleVolume != 0){
+        }if(waterStore.bottleVolume && parseInt(waterStore.bottleVolume) > 0){
            setBottleDiable(true);
-        }if(waterStore.glassVolume && waterStore.glassVolume != 0){
+        }if(waterStore.glassVolume && parseInt(waterStore.glassVolume) > 0){
           setGlassDiable(true);
         }
   }
@@ -106,26 +106,71 @@ const AddWaterPopup = () => {
       {key:'4', value:'Something else Water Volume', desc : 'This will set your own volume for future use ',disabled: isSomethingDis},
   ]
 
+  const isValid = (val) =>{
+        if(Number.isInteger(parseInt(val)) && !isNaN(val)){
+            if(val === '0') return false;
+            else return true;
+        }
+        return false;
+  }
+
+  const isGlassValidWater = async (type) =>{
+        if(!isValid(valume)){
+          showToastMessage("please enter valid number");
+          return;
+        }
+        const targetWater = waterStore.targetVolume;
+        if(parseInt(targetWater) < parseInt(valume)){
+          showToastMessage("glass water volume can't larger than target volume");
+          return;
+        }
+        dispatch(setGlassVolume(valume));
+        await setAsValue(type,valume);
+        disableModal(false);
+  }
+
+  const isBottleValidWater = async (type) =>{
+    if(!isValid(valume)){
+      showToastMessage("please enter valid number");
+      return;
+    }
+    const targetWater = waterStore.targetVolume;
+    if(parseInt(targetWater) < parseInt(valume)){
+      showToastMessage("Bottle water volume can't larger than target volume");
+      return;
+    }
+    dispatch(setBottleVolume(valume));
+    await setAsValue(type,valume);
+    disableModal(false);
+ }
+
   const saveDataInLocal = async () => {
       var type = "";
        if(selected === '1'){
           type = AppConstant.target;
-          dispatch(setTargetVolume(valume));
+          if(isValid(valume)){
+             dispatch(setTargetVolume(valume));
+             await setAsValue(type,valume);
+          }else{
+              showToastMessage("please enter valid number");
+          }
+          disableModal(false);
        }else if(selected === '2'){
+          console.log(`select in 2`)
           type = AppConstant.glassWater;
-          dispatch(setGlassVolume(valume));
+          isGlassValidWater(type);
        }else if(selected === '3'){
-          dispatch(setBottleVolume(valume));
+          console.log(`select in 3`)
           type = AppConstant.bottleWater;
-       }else{
+          isBottleValidWater(type);
+       }else if(selected === '4'){
+          console.log(`select in 4`)
           type = AppConstant.something;
           addConsumeWater(valume);
+          disableModal(false);
        }
-        await setAsValue(type,valume);
-        disableModal(false);
   }
   const onClick = () =>{
-    console.log(`waterStore ----------> ${JSON.stringify(waterStore)}`);
     if(!selected){
       showToastMessage("Please select water volume type"); 
     }else if(!valume){
@@ -150,15 +195,11 @@ const AddWaterPopup = () => {
 
   const addConsumeWater = async (val) =>{
       const currConsumeWater = waterStore.consumedWater;
-      //const currCosumeWaterLocal = getAsValue(AppConstant.something);
       const targetWater = waterStore.targetVolume;
-      console.log(`val --------> ${val}`)
       if(targetWater && targetWater != 0){
-            console.log(`currConsumeWater --------> ${currConsumeWater}`);
             const newConsume = parseInt(`${currConsumeWater}`) + parseInt(`${val}`);
-            console.log(`new Consume ---------> ${newConsume}`);
-            if(parseInt(`${targetWater}`) < parseInt(`${newConsume}`)){
-               await setAsValue(AppConstant.something,newConsume);
+            if(parseInt(`${targetWater}`) > parseInt(`${newConsume}`)){
+                await setAsValue(`${AppConstant.something}`,`${newConsume}`);
                 dispatch(setConsumedWaster(newConsume));
             }else{
               showToastMessage("you can't take this much water now . This is exceeding from target water ");
@@ -184,7 +225,7 @@ const AddWaterPopup = () => {
         <View style={{alignItems: 'center' , marginTop : 10}}>
             <SelectList 
                 setSelected={(val) => onDropDownSelection(val)} 
-                data={data} 
+                data={data}
                 save='key'
                 placeholder='Select Water Volume Type'
                 style={{borderColor:'red'}}
