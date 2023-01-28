@@ -3,6 +3,8 @@ const initialState = {
     selectedLang : '',
 }
 
+const usersDefaultState = [];
+
 
 const userReducer = (state = initialState , action) => {
         switch(action.type){
@@ -16,6 +18,10 @@ const userReducer = (state = initialState , action) => {
                     ...state,
                     selectedLang : action.language,
                 };   
+            case 'userReset':
+                return {
+                    usersDefaultState,
+                }    
             default : 
                return state;    
         }

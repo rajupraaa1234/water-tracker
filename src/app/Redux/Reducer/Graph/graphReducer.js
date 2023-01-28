@@ -4,6 +4,7 @@ const initialState = {
     isTaken : '',
 }
 
+const graphDefault = [];
 
 const graphReducer = (state = initialState , action) =>{
         switch(action.type){
@@ -22,6 +23,10 @@ const graphReducer = (state = initialState , action) =>{
                     ...state,
                     isTaken : action.taken,
                 };
+            case 'resetGraph':
+                return {
+                    graphDefault,
+                }    
             default :
                 return state;        
         }

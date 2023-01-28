@@ -16,8 +16,15 @@ const setUserLang = (lang) =>{
     };
 }
 
+const userReset = () =>{
+    return {
+        type : 'userReset',
+    }
+}
+
 export {
     setUsername,
     setUserLang,
+    userReset,
 }
 

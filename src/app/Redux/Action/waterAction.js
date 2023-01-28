@@ -26,9 +26,16 @@ const setConsumedWaster = (val) => {
     };
 }
 
+const resetWater = () =>{
+    return {
+        type : 'waterReset',
+    }
+}
+
 export {
     setTargetVolume,
     setBottleVolume,
     setGlassVolume,
     setConsumedWaster,
+    resetWater,
 }

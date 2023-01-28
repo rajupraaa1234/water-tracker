@@ -4,6 +4,7 @@ const initialState = {
     glassVolume : 0,
     consumedWater : 0,
 }
+const waterDefaultState = [];
 
 const waterReducer = (state = initialState , action) => {
         switch(action.type){
@@ -26,7 +27,11 @@ const waterReducer = (state = initialState , action) => {
                 return  {
                     ...state,
                     consumedWater : action.consume
-                }    
+                }
+            case 'waterReset':
+                return{
+                    waterDefaultState,
+                }        
             default:
                 return state;
 

@@ -7,6 +7,8 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {userImg,menuBg} from '@image';
 import {useSelector , useDispatch} from 'react-redux';
 import {setAddWaterModalVis} from '@action';
+import {clearStorage} from '@util';
+import {userReset,resetWater} from '@action';
 
 import {
     DrawerContentScrollView,
@@ -37,6 +39,12 @@ const DrawerContent = (props , {navigation}) => {
     props.navigation.closeDrawer(); 
   }
 
+  const onLogout = async () =>{
+       await clearStorage();
+       dispatch(userReset());
+       dispatch(resetWater());
+       props.navigation.replace('LanguageSelectionScreen');
+  }
     const userStore = useSelector(state => state.userReducer);
     return (
         <View style={{flex: 1}}>
@@ -111,7 +119,7 @@ const DrawerContent = (props , {navigation}) => {
                 </Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => {}} style={{paddingVertical: 15}}>
+            <TouchableOpacity onPress={() => {onLogout()}} style={{paddingVertical: 15}}>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <Ionicons name="exit-outline" size={22} color={COLOR.darkButtonBlueColor}/>
                 <Text
