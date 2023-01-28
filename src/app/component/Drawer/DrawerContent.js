@@ -22,7 +22,7 @@ const DrawerContent = (props , {navigation}) => {
 
 
   const dispatch = useDispatch();
-
+  const waterStore = useSelector(state => state.waterReducer);
 
   const disableModal = (vis) =>{
       dispatch(setAddWaterModalVis(vis));
@@ -33,6 +33,10 @@ const DrawerContent = (props , {navigation}) => {
     switch(id){
       case 2 : {
         disableModal(true);
+        break;
+      }
+      case 5: {
+        props.navigation.navigate("WaterContainergraph");
         break;
       }    
     }
@@ -74,9 +78,9 @@ const DrawerContent = (props , {navigation}) => {
                     fontFamily: 'Roboto-Regular',
                     marginRight: 5,
                   }}>
-                  280 Coins
+                  {waterStore.targetVolume} Target
                 </Text>
-                <FontAwesome5 name="coins" size={14} color="#fff" />
+                <FontAwesome5 name="water" size={14} color="#fff" />
               </View>
             </ImageBackground>
             <View style={{flex: 1, backgroundColor: '#fff', paddingTop: 10}}>
@@ -95,6 +99,12 @@ const DrawerContent = (props , {navigation}) => {
                      label={"Change your Language"}
                      labelStyle={{color : COLOR.darkButtonBlueColor}}
                      onPress={()=>{onClick(3)}}
+                />
+                
+                <DrawerItem 
+                     label={"View your water container"}
+                     labelStyle={{color : COLOR.darkButtonBlueColor}}
+                     onPress={()=>{onClick(5)}}
                 />
                 <DrawerItem 
                      label={"Profile"}
