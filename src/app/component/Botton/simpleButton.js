@@ -1,6 +1,7 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet,TouchableOpacity } from 'react-native';
+import PropTypes from 'prop-types';
 
 // create a component
 const SimpleButton = (props) => {
@@ -14,11 +15,14 @@ const SimpleButton = (props) => {
     );
 };
 
-// const styles = StyleSheet.create({
-//     container  : {
-//        backgroundColor : backGroundColor
-//     }
-// })
 
-//make this component available to the app
+
+SimpleButton.propTypes = {
+    btnText : PropTypes.string
+};
+  
+  SimpleButton.defaultProps = {
+       btnText : 'submit',
+       onClick : () => console.log(`raju click`),
+  };
 export default SimpleButton;
